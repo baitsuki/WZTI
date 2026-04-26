@@ -32,7 +32,6 @@
     .page.active {
       display: block;
     }
-    /* 封面页 - 极简扁平线稿风 */
     .cover {
       min-height: 100vh;
       display: flex;
@@ -74,7 +73,6 @@
       background: var(--wz-accent);
       color: #fff;
     }
-    /* 答题页 */
     .quiz-header {
       display: flex;
       justify-content: space-between;
@@ -126,17 +124,16 @@
       border-color: var(--wz-accent);
       color: var(--wz-accent);
     }
-    /* 结果页 */
     .result {
       text-align: center;
     }
     .result-poster {
       width: 100%;
+      max-width: 500px;
       border-radius: var(--radius);
       margin-bottom: 24px;
-      /* 确保图片加载失败时显示提示 */
-      object-fit: contain;
-      min-height: 400px;
+      object-fit: cover;
+      aspect-ratio: 3/4;
     }
     .action-row {
       display: flex;
@@ -171,7 +168,7 @@
 <!-- 结果页 -->
 <div class="page" id="pageResult">
   <div class="result">
-    <img id="posterImg" class="result-poster" alt="人格海报" onerror="this.src='https://picsum.photos/600/800?random='+Math.random()">
+    <img id="posterImg" class="result-poster" alt="人格海报" loading="lazy">
     <div class="action-row">
       <button class="btn" id="restartBtn">重新测试</button>
     </div>
@@ -198,19 +195,19 @@
     { q: "看到朋友圈P图过度自拍，你会：", o: ["A. 美女贴贴！", "B. 这是谁？认不出", "C. 找P图痕迹", "D. 直接划过"] }
   ];
 
-  // ✅ 本地图片路径（和html文件同文件夹）
+  // ✅ 全球极速 CDN 加速图片（加载飞快）
   const posters = [
-    "1.png",  // 元流之子
-    "2.png",  // 东方曜
-    "3.png",  // 伽罗
-    "4.png",  // 花木兰
-    "5.png",  // 铠
-    "6.png",  // 冷春
-    "7.png",  // 鲁班大师
-    "8.png",  // 蒙犽
-    "9.png",  // 孙膑
-    "10.png", // 王昭君
-    "11.png"  // 西施
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/1.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/2.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/3.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/4.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/5.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/6.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/7.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/8.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/9.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/10.png",
+    "https://cdn.jsdelivr.net/gh/baitsuki/WZTI/11.png"
   ];
 
   let current = 0;
@@ -264,7 +261,9 @@
   // 展示结果
   function showResult() {
     const idx = getStableIndex();
-    document.getElementById('posterImg').src = posters[idx];
+    const img = document.getElementById('posterImg');
+    img.src = posters[idx];
+    img.loading = "lazy";
     showPage('pageResult');
   }
 
